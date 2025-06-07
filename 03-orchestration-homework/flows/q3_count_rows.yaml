@@ -1,0 +1,20 @@
+id: q3_count_rows
+namespace: mlops.zoomcamp
+
+tasks:
+  - id: extract
+    type: io.kestra.plugin.core.http.Download
+    uri: https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-03.parquet
+
+  - id: count_rows
+    type: io.kestra.plugin.scripts.python.Script
+    containerImage: python:3.11-slim
+    inputFiles:
+      data.parquet: "{{ outputs.extract.uri }}"
+    script: |
+      import subprocess
+      subprocess.run(["pip", "install", "pandas", "pyarrow"], check=True)
+
+      import pandas as pd
+      df = pd.read_parquet("data.parquet")
+      print("Nombre de lignes :", len(df))

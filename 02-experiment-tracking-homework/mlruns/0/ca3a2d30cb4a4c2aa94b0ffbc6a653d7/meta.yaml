@@ -1,0 +1,15 @@
+artifact_uri: file:///workspaces/mlops-zoomcamp/cohorts/2025/02-experiment-tracking/homework/mlruns/0/ca3a2d30cb4a4c2aa94b0ffbc6a653d7/artifacts
+end_time: 1747861732731
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ca3a2d30cb4a4c2aa94b0ffbc6a653d7
+run_name: learned-lynx-535
+run_uuid: ca3a2d30cb4a4c2aa94b0ffbc6a653d7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747861711835
+status: 3
+tags: []
+user_id: codespace

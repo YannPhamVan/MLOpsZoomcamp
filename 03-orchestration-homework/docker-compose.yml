@@ -1,0 +1,58 @@
+version: '3.9'
+
+services:
+  kestra:
+    image: kestra/kestra:latest
+    user: "root"
+    command: server standalone
+    volumes:
+      - kestra-data:/app/storage
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./kestra-wd:/tmp/kestra-wd
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      KESTRA_CONFIGURATION: |
+        kestra:
+          server:
+            basicAuth:
+              enabled: false
+              username: "admin@kestra.io"
+              password: kestra
+          repository:
+            type: memory
+          storage:
+            type: local
+            local:
+              basePath: "/app/storage"
+          queue:
+            type: memory
+          tasks:
+            tmpDir:
+              path: /tmp/kestra-wd/tmp
+          url: http://localhost:8080/
+    networks:
+      - mlops
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: mlflow.dockerfile
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:///mlflow.db
+      --default-artifact-root file:/home/mlflow_data
+      --host 0.0.0.0
+      --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow_data:/home/mlflow_data
+
+networks:
+  mlops:
+    driver: bridge
+
+volumes:
+  kestra-data:

@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+prefect = "*"
+mlflow = "*"
+scikit-learn = "*"
+pandas = "*"
+pyarrow = "*"
+cloudpickle = "*"
+requests = "*"
+joblib = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"

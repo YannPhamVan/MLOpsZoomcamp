@@ -1,0 +1,84 @@
+id: q6_register_model
+namespace: mlops.zoomcamp
+
+tasks:
+  - id: extract
+    type: io.kestra.plugin.core.http.Download
+    uri: https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-03.parquet
+
+  - id: prepare_data
+    type: io.kestra.plugin.scripts.python.Script
+    containerImage: python:3.11-slim
+    inputFiles:
+      data.parquet: "{{ outputs.extract.uri }}"
+    outputFiles:
+      - filtered.parquet
+    script: |
+      import subprocess
+      subprocess.run(["pip", "install", "pandas", "pyarrow"], check=True)
+
+      import pandas as pd
+      df = pd.read_parquet("data.parquet")
+      df['duration'] = df.tpep_dropoff_datetime - df.tpep_pickup_datetime
+      df.duration = df.duration.dt.total_seconds() / 60
+      df = df[(df.duration >= 1) & (df.duration <= 60)].copy()
+      categorical = ["PULocationID", "DOLocationID"]
+      df[categorical] = df[categorical].fillna(-1).astype('int').astype('str')
+      df[categorical + ["duration"]].to_parquet("filtered.parquet", index=False)
+
+  - id: train_model
+    type: io.kestra.plugin.scripts.python.Script
+    containerImage: python:3.11-slim
+    docker:
+      networkMode: host
+    env:
+      MLFLOW_TRACKING_URI: "http://localhost:5000"
+    inputFiles:
+      filtered.parquet: "{{ outputs.prepare_data.outputFiles['filtered.parquet'] }}"
+    script: |
+      import subprocess
+      subprocess.run(["pip", "install", "scikit-learn", "pandas", "pyarrow", "mlflow==2.12.1", "cloudpickle"], check=True)
+
+      import pandas as pd
+      import mlflow
+      import mlflow.sklearn
+      from sklearn.feature_extraction import DictVectorizer
+      from sklearn.linear_model import LinearRegression
+      import cloudpickle
+
+      # Tracking setup
+      mlflow.set_tracking_uri("http://localhost:5000")
+      experiment_name = "nyc-taxi-experiment"
+      mlflow.set_experiment(experiment_name)
+
+      # Diagnostic : artifact location
+      from mlflow.tracking import MlflowClient
+      client = MlflowClient()
+      exp = client.get_experiment_by_name(experiment_name)
+      print(f"✅ artifact_location: {exp.artifact_location}")
+
+      # Data load
+      df = pd.read_parquet("filtered.parquet")
+      categorical = ["PULocationID", "DOLocationID"]
+      train_dicts = df[categorical].to_dict(orient='records')
+      dv = DictVectorizer()
+      X_train = dv.fit_transform(train_dicts)
+      y_train = df["duration"].values
+
+      with mlflow.start_run():
+          lr = LinearRegression()
+          lr.fit(X_train, y_train)
+
+          print("Intercept:", lr.intercept_)
+
+          # Log artifacts
+          mlflow.sklearn.log_model(lr, artifact_path="model")
+          mlflow.log_param("model_type", "LinearRegression")
+          mlflow.log_param("features", categorical)
+
+          df.to_parquet("filtered_logged.parquet", index=False)
+          mlflow.log_artifact("filtered_logged.parquet")
+
+          with open("dv.pkl", "wb") as f_out:
+              cloudpickle.dump(dv, f_out)
+          mlflow.log_artifact("dv.pkl")
