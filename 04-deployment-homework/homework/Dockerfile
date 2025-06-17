@@ -1,8 +1,12 @@
 FROM agrigorev/zoomcamp-model:mlops-2024-3.10.13-slim
 
 RUN pip install -U pip
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+
+RUN pip install pipenv
+
+COPY [ "Pipfile", "Pipfile.lock", "./" ]
+
+RUN pipenv install --system --deploy
 
 COPY [ "starter.py", "starter.py" ]
 
