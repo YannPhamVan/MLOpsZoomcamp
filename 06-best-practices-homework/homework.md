@@ -21,6 +21,9 @@ Now we need to create the "main" block from which we'll invoke
 the main function. How does the `if` statement that we use for
 this looks like? 
 
+```python
+if __name__ == '__main__':
+```
 
 Hint: after refactoring, check that the code still works. Just run it e.g. for March 2023 and see if it finishes successfully. 
 
@@ -43,6 +46,8 @@ Next, create a folder `tests` and create two files. One will be
 the file with tests. We can name it `test_batch.py`. 
 
 What should be the other file? 
+
+**__init__.py**
 
 Hint: to be able to test `batch.py`, we need to be able to
 import it. Without this other file, we won't be able to do it.
@@ -96,7 +101,7 @@ The same is true for Pandas Series. Also, a DataFrame could be turned into a lis
 How many rows should be there in the expected dataframe?
 
 * 1
-* 2
+* **2**
 * 3
 * 4
 
@@ -129,7 +134,7 @@ In both cases we should adjust commands for localstack. What option do we need t
 
 * `--backend-store-uri`
 * `--profile`
-* `--endpoint-url`
+* **`--endpoint-url`**
 * `--version`
 
 
@@ -221,7 +226,7 @@ df_input.to_parquet(
 
 What's the size of the file?
 
-* 3620
+* **3620**
 * 23620
 * 43620
 * 63620
@@ -253,7 +258,7 @@ verify the result is correct.
 What's the sum of predicted durations for the test dataframe?
 
 * 13.08
-* 36.28
+* **36.28**
 * 69.28
 * 81.08
 
