@@ -9,7 +9,7 @@ It covers the best practices, tools, and techniques for the full ML lifecycle: t
 
 The course is completely free and open-source. It is taught by [Alexey Grigorev](https://www.linkedin.com/in/agrigorev/) and other experienced MLOps practitioners.
 
-![MLOps Zoomcamp](docs/images/mlops_zoomcamp_banner.png) <!-- Placeholder for illustration -->
+![MLOps Zoomcamp](https://datatalks.club/images/posts/2024-03-07-mlops-zoomcamp/image2.png) <!-- Placeholder for illustration -->
 
 ---
 
@@ -36,8 +36,6 @@ The course introduces a variety of tools and technologies for MLOps, including:
 - **CI/CD tools (GitHub Actions, etc.)**
 - **Testing frameworks**
 
-![Tech stack](docs/images/mlops_tech_stack.png) <!-- Placeholder for illustration -->
-
 ---
 
 ## 4. Syllabus
@@ -46,13 +44,13 @@ The course is structured into the following modules:
 
 | Module | Title | Status |
 |--------|-------|--------|
-| 1 | Introduction to MLOps | Completed |
-| 2 | Experiment Tracking and Model Management | Completed |
-| 3 | Orchestration and Pipelines | Completed |
-| 4 | Model Deployment | Completed |
-| 5 | Model Monitoring | Completed |
-| 6 | Best Practices | Completed |
-| 7 | Project | Completed |
+| 1 | Introduction to MLOps | ✅ Completed |
+| 2 | Experiment Tracking and Model Management | ✅ Completed |
+| 3 | Orchestration and Pipelines | ✅ Completed |
+| 4 | Model Deployment | ✅ Completed |
+| 5 | Model Monitoring | ✅ Completed |
+| 6 | Best Practices | ✅ Completed |
+| 7 | Project | ✅ Completed |
 
 ---
 
