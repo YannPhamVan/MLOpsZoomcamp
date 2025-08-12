@@ -59,7 +59,6 @@ The course is structured into the following modules:
 - 📄 [Official course page](https://datatalks.club/blog/mlops-zoomcamp.html)
 - 📄 [GitHub repository](https://github.com/DataTalksClub/mlops-zoomcamp)
 - 🎥 [YouTube playlist](https://www.youtube.com/playlist?list=PL3MmuxUbc_hIhxl5Ji8t4O6lPAOpHaCLR)
-- 💬 [Slack channel](https://datatalks-club.slack.com/)
 - 📚 [Guide to all Zoomcamps](https://datatalks.club/blog/guide-to-free-online-courses-at-datatalks-club.html#mlops-zoomcamp)
 
 ---
